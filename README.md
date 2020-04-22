@@ -19,7 +19,7 @@ Variables currently gathered are shown in the example output below:
 - IsServer = False
 - IsTablet = False
 - IsVM = False
-- MacAddress = 48:0F:CF:45:06:F1
+- MacAddress = 48:0F:CF:46:09:F5
 - Make = HP
 - Memory = 49031.58203125
 - Model = HP EliteDesk 800 G2 SFF
@@ -31,7 +31,7 @@ Variables currently gathered are shown in the example output below:
 - ProcessorName = Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
 - ProcessorSpeed = 3408
 - Product = 8054
-- SerialNumber = CZC60989W5
-- UUID = D41CCC6A-E086-11E5-9C43-BC0000EE0000
+- SerialNumber = CZCXXXXXXX
+- UUID = D41CCC6A-E086-13G5-9C43-BC0000EE0000
 - Vendor = HP
 - VMPlatform = N/A
