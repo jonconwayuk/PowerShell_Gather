@@ -11,7 +11,7 @@ For testing, the script can be run locally by using the '-Debug' parameter as pe
 
 **PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug**
 
-The vast majority of the groundwork for this script was done by Johan Schrewelius (https://gallery.technet.microsoft.com/PowerShell-script-that-a8a7bdd8) who has kindly allowed me to share ad update his work.
+The vast majority of the groundwork for this script was done by Johan Schrewelius (https://gallery.technet.microsoft.com/PowerShell-script-that-a8a7bdd8) who has kindly allowed me to share and update his work.
 
 Variables currently gathered are shown in the example output below:
 
