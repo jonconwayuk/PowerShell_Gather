@@ -9,7 +9,7 @@ Script can be run in a Task in an SCCM Task Sequence - easiest way is to add the
 
 For testing, the script can be run locally by using the '-Debug' parameter as per the example below from an Administrator PowerShell prompt:
 
-**PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Gather.ps1 -Debug**
+**PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug**
 
 Variables currently gathered are shown in the example output below:
 
