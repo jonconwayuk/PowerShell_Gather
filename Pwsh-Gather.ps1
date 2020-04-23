@@ -6,7 +6,7 @@
 .NOTES
     Author(s):  Jonathan Conway
     Modified:   23/04/2020
-    Version:    1.1
+    Version:    1.2
 #>
 
 Param (
@@ -218,7 +218,8 @@ function Get-HardwareInfo {
 function Get-NetworkInfo {
 
     (Get-CimInstance -ClassName 'Win32_NetworkAdapterConfiguration' -Filter 'IPEnabled = 1') | ForEach-Object {
-
+        
+        # Get IP address information
         $_.IPAddress | ForEach-Object {
             if ($_ -ne $null) {
                 if ($_.IndexOf('.') -gt 0 -and !$_.StartsWith('169.254') -and $_ -ne '0.0.0.0') {
@@ -233,6 +234,7 @@ function Get-NetworkInfo {
             }
         }
 
+        # Get Default Gateway information
         $_.DefaultIPGateway -split ',' | Select-Object -First '1' | ForEach-Object {
             if ($_ -ne $null -and $_.IndexOf('.') -gt 0) {
 
@@ -245,18 +247,21 @@ function Get-NetworkInfo {
             }
         }
 
-        $EthernetConnection = Get-CimInstance -ClassName 'Win32_NetworkAdapter' | Where-Object { $_.Name -like "*Ethernet Connection*" -or $_.Name -like "*Realtek PCIe*" -and $_.NetConnectionStatus -eq '2' }
-
-        if ($null -eq $EthernetConnection) {
-            $IsOnEthernet = $false
-        }
-        else {
-            $IsOnEthernet = $true
-        }
-
-        $TSvars.Add('IsOnEthernet', "$IsOnEthernet")
     }
+
+    # Check to see if the device is connected via Ethernet and return $true if it is
+    $EthernetConnection = Get-CimInstance -ClassName 'Win32_NetworkAdapter' | Where-Object { $_.Name -like "*Ethernet Connection*" -or $_.Name -like "*Realtek PCIe*" -and $_.NetConnectionStatus -eq '2' }
+
+    if ($null -eq $EthernetConnection) {
+        $IsOnEthernet = $false
+    }
+    else {
+        $IsOnEthernet = $true
+    }
+
+    $TSvars.Add('IsOnEthernet', "$IsOnEthernet")
     
+    # Get device MAC addresses for conencted NICs
     $Nic = (Get-CimInstance -ClassName 'Win32_NetworkAdapter' -Filter 'NetConnectionStatus = 2')
 
     $TSvars.Add('MacAddress', $Nic.MACAddress -join ',')
