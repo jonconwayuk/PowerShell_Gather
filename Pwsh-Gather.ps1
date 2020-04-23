@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   22/04/2020
-    Version:    1.0
+    Modified:   23/04/2020
+    Version:    1.1
 #>
 
 Param (
@@ -245,7 +245,7 @@ function Get-NetworkInfo {
             }
         }
 
-        $EthernetConnection = Get-NetAdapter -Physical | Where-Object { $_.Name -like "*Ethernet*" -and $_.Status -eq "Up" }
+        $EthernetConnection = Get-CimInstance -ClassName 'Win32_NetworkAdapter' | Where-Object { $_.Name -like "*Ethernet Connection*" -or $_.Name -like "*Realtek PCIe*" -and $_.NetConnectionStatus -eq '2' }
 
         if ($null -eq $EthernetConnection) {
             $IsOnEthernet = $false
