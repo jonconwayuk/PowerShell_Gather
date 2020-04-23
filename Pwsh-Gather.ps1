@@ -7,8 +7,6 @@
     Author(s):  Jonathan Conway
     Modified:   22/04/2020
     Version:    1.0
-
-    1.0:    Initial Release
 #>
 
 Param (
