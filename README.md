@@ -38,6 +38,10 @@ Variables currently gathered are shown in the example output below:
 - OSBuildNumber = 17763.1158
 - OSCurrentBuild = 17763
 - OSCurrentVersion = 10.0.17763
+- OsLocale = en-GB
+- OsTimeZone = (UTC+00:00) Dublin, Edinburgh, Lisbon, London
+- OsWindowsInstallationType = Server
+- OsWindowsProductName = Windows Server 2019 Standard
 - ProcessorFamily = 6700
 - ProcessorManufacturer = GenuineIntel
 - ProcessorName = Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
