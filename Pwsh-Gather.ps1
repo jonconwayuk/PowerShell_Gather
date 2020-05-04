@@ -5,8 +5,13 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
+<<<<<<< Updated upstream
     Modified:   23/04/2020
     Version:    1.2
+=======
+    Modified:   04/05/2020
+    Version:    1.3
+>>>>>>> Stashed changes
 #>
 
 Param (
@@ -272,6 +277,7 @@ function Get-OsInfo {
 
     $Os = Get-CimInstance -ClassName 'Win32_OperatingSystem'
     $OsBuildNumber = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'CurrentBuild').CurrentBuild + '.' + (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'UBR').UBR
+    $ComputerInfo = Get-ComputerInfo
 
     if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
         $Architecture = 'X64'
@@ -284,6 +290,10 @@ function Get-OsInfo {
     $TSvars.Add('OSCurrentVersion', $Os.Version)
     $TSvars.Add('OSCurrentBuild', $Os.BuildNumber)
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
+    $TSvars.Add('OsLocale', $ComputerInfo.OsLocale)
+    $TSvars.Add('OsWindowsInstallationType', $ComputerInfo.WindowsInstallationType)
+    $TSvars.Add('OsWindowsProductName', $ComputerInfo.WindowsProductName)
+    $TSvars.Add('OsTimeZone', $ComputerInfo.TimeZone)
 
 }
 
