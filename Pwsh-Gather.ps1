@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   04/05/2020
-    Version:    1.3
+    Modified:   20/05/2020
+    Version:    1.4
 #>
 
 Param (
@@ -335,7 +335,7 @@ else {
         $TSvars.Add("OSDComputerName", $tsenv.Value("_SMSTSMachineName"))
     }
 
-    $TSvars.Keys | ForEach-Object {
+    $TSvars.Keys | Sort-Object | ForEach-Object {
         $tsenv.Value($_) = $TSvars[$_]
         Write-Output "$($_) = $($TSvars[$_])"
     }
