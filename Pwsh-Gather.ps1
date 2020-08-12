@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   20/05/2020
-    Version:    1.4
+    Modified:   12/08/2020
+    Version:    1.5
 #>
 
 Param (
