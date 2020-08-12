@@ -111,6 +111,7 @@ function Get-ChassisInfo {
     $TSvars.Add('Memory', ($ComputerSystem.TotalPhysicalMemory / 1024 / 1024).ToString())
     $TSvars.Add('Make', $ComputerSystem.Manufacturer)
     $TSvars.Add('Model', $ComputerSystem.Model)
+    $TSvars.Add('SystemSKU', $ComputerSystem.SystemSKUNumber)
 
     if ($VirtualHosts.ContainsKey($ComputerSystem.Model)) {
         $IsVM = $true
