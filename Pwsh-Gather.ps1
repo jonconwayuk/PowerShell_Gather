@@ -103,6 +103,7 @@ function Get-ChassisInfo {
         'VMware7,1'               = 'VMware';
         'VirtualBox'              = 'VirtualBox';
         'Xen'                     = 'Xen'
+        'AHV'                     = 'Nutanix'
     }
 
     $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem'
