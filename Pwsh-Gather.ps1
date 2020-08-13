@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   12/08/2020
-    Version:    1.5
+    Modified:   13/08/2020
+    Version:    1.6
 #>
 
 Param (
@@ -111,6 +111,7 @@ function Get-ChassisInfo {
     $TSvars.Add('Memory', ($ComputerSystem.TotalPhysicalMemory / 1024 / 1024).ToString())
     $TSvars.Add('Make', $ComputerSystem.Manufacturer)
     $TSvars.Add('Model', $ComputerSystem.Model)
+    $TSvars.Add('SystemSKU', $ComputerSystem.SystemSKUNumber)
 
     if ($VirtualHosts.ContainsKey($ComputerSystem.Model)) {
         $IsVM = $true
