@@ -1,12 +1,12 @@
 ﻿<#
 .DESCRIPTION
-    Script to replace MDT Gather in SCCM Task Sequences
+    Script to replace MDT Gather in MEMCM Task Sequences
 .EXAMPLE
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   13/08/2020
-    Version:    1.6
+    Modified:   21/12/2020
+    Version:    1.7
 #>
 
 Param (
@@ -125,7 +125,7 @@ function Get-ChassisInfo {
     }
 
     $DesktopChassisTypes = @('3', '4', '5', '6', '7', '13', '15', '16', '35', '36')
-    $LatopChassisTypes = @('8', '9', '10', '11', '12', '14', '18', '21')
+    $LaptopChassisTypes = @('8', '9', '10', '11', '12', '14', '18', '21')
     $ServerChassisTypes = @('23', '28')
     $TabletChassisTypes = @('30', '31', '32')
 
@@ -148,10 +148,10 @@ function Get-ChassisInfo {
             }
 
             if ($TSvars.ContainsKey('IsLaptop')) {
-                $TSvars['IsLaptop'] = [string]$LatopChassisTypes.Contains($_.ToString())
+                $TSvars['IsLaptop'] = [string]$LaptopChassisTypes.Contains($_.ToString())
             }
             else {
-                $TSvars.Add('IsLaptop', [string]$LatopChassisTypes.Contains($_.ToString()))
+                $TSvars.Add('IsLaptop', [string]$LaptopChassisTypes.Contains($_.ToString()))
                 $TSvars.Add('IsDesktop', "$false")
                 $TSvars.Add('IsServer', "$false")
                 $TSvars.Add('IsTablet', "$false")
@@ -166,7 +166,7 @@ function Get-ChassisInfo {
                 $TSvars.Add('IsLaptop', "$false")
                 $TSvars.Add('IsTablet', "$false")
             }
-            
+
             if ($TSvars.ContainsKey('IsTablet')) {
                 $TSvars['IsTablet'] = [string]$TabletChassisTypes.Contains($_.ToString())
             }
@@ -195,10 +195,10 @@ function Get-HardwareInfo {
     $Processor = Get-CimInstance -ClassName 'Win32_Processor'
 
     if ($Processor.Manufacturer -eq 'GenuineIntel') {
-        
+
         $ProcessorName = $Processor.Name
         $ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 4)
-        
+
         if ($ProcessorFamily -ge '8000') {
             $IsCoffeeLakeOrLater = $true
         }
@@ -211,7 +211,7 @@ function Get-HardwareInfo {
         $TSvars.Add('ProcessorName', $ProcessorName)
 
     }
-    
+
     $TSvars.Add('ProcessorManufacturer', $Processor.Manufacturer)
     $TSvars.Add('ProcessorSpeed', $Processor.MaxClockSpeed.ToString())
 
@@ -220,7 +220,7 @@ function Get-HardwareInfo {
 function Get-NetworkInfo {
 
     (Get-CimInstance -ClassName 'Win32_NetworkAdapterConfiguration' -Filter 'IPEnabled = 1') | ForEach-Object {
-        
+
         # Get IP address information
         $_.IPAddress | ForEach-Object {
             if ($_ -ne $null) {
@@ -262,8 +262,8 @@ function Get-NetworkInfo {
     }
 
     $TSvars.Add('IsOnEthernet', "$IsOnEthernet")
-    
-    # Get device MAC addresses for conencted NICs
+
+    # Get device MAC addresses for connected NICs
     $Nic = (Get-CimInstance -ClassName 'Win32_NetworkAdapter' -Filter 'NetConnectionStatus = 2')
 
     $TSvars.Add('MacAddress', $Nic.MACAddress -join ',')
@@ -315,7 +315,7 @@ Get-OsInfo
 if ($Debug) {
 
     Start-Transcript -Path "$env:windir\Temp\Pwsh-Gather.log" -Append -NoClobber
-    
+
     $TSvars.Keys | Sort-Object | ForEach-Object {
         Write-Host "$($_) = $($TSvars[$_])"
     }
@@ -326,7 +326,7 @@ if ($Debug) {
 
 # If Debug is false then add variables to the Task Sequence environment
 else {
-    
+
     $tsenv = New-Object -ComObject Microsoft.SMS.TSEnvironment
     $temp = $tsenv.Value("OSDComputerName")
     $LogPath = $tsenv.Value("_SMSTSLogPath")
