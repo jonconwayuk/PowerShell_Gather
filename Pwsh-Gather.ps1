@@ -1,11 +1,11 @@
 ﻿<#
 .DESCRIPTION
-    Script to replace MDT Gather in MECM Task Sequences
+    Script to replace MDT Gather in MEMCM Task Sequences
 .EXAMPLE
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   09/06/2021
+    Modified:   21/12/2020
     Version:    1.7
 #>
 
@@ -98,10 +98,10 @@ function Get-BitLockerInfo {
 function Get-ChassisInfo {
 
     $VirtualHosts = @{
-        'Virtual Machine'         = 'Hyper-V'
-        'VMware Virtual Platform' = 'VMware'
-        'VMware7,1'               = 'VMware'
-        'VirtualBox'              = 'VirtualBox'
+        'Virtual Machine'         = 'Hyper-V';
+        'VMware Virtual Platform' = 'VMware';
+        'VMware7,1'               = 'VMware';
+        'VirtualBox'              = 'VirtualBox';
         'Xen'                     = 'Xen'
         'AHV'                     = 'Nutanix'
     }
@@ -197,7 +197,7 @@ function Get-HardwareInfo {
     if ($Processor.Manufacturer -eq 'GenuineIntel') {
 
         $ProcessorName = $Processor.Name
-        [int]$ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 5)
+        $ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 4)
 
         if ($ProcessorFamily -ge '8000') {
             $IsCoffeeLakeOrLater = $true
