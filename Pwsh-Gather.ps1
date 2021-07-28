@@ -198,12 +198,12 @@ Function Get-ComputerSystemProductInfo {
 
 Function Get-HardwareInfo {
 
-    $Processor = Get-CimInstance -ClassName 'Win32_Processor'
+    $Processor = Get-CimInstance -ClassName 'Win32_Processor' | Select-Object -First '1'
 
     if ($Processor.Manufacturer -eq 'GenuineIntel') {
 
         $ProcessorName = $Processor.Name
-        [int]$ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 5)
+        [int]$ProcessorFamily = ("$ProcessorName" -split '([^-][0-9]{3,})')[1]
 
         if ($ProcessorFamily -ge '8000') {
             $IsCoffeeLakeOrLater = $true
@@ -324,7 +324,7 @@ if ($Debug) {
     Start-Transcript -Path "$env:windir\Temp\Pwsh-Gather.log" -Append -NoClobber
 
     $TSvars.Keys | Sort-Object | ForEach-Object {
-        Write-Host "$($PSItem) = $($TSvars[$PSItem])"
+        Write-Host "$($PSItem) = $($TSvars[$PSItem])" -BackgroundColor 'Blue' -ForegroundColor 'Black'
     }
 
     Stop-Transcript
