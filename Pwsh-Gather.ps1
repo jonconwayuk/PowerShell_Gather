@@ -1,12 +1,12 @@
 ﻿<#
 .DESCRIPTION
-    Script to replace MDT Gather in MEMCM Task Sequences
+    Script to replace MDT Gather in MECM Task Sequences
 .EXAMPLE
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   21/12/2020
-    Version:    1.7
+    Modified:   28/07/2021
+    Version:    1.8
 #>
 
 Param (
@@ -15,7 +15,7 @@ Param (
 
 $TSvars = @{ }
 
-function Get-BatteryInfo {
+Function Get-BatteryInfo {
 
     # Is a battery present?
     if ($null -ne (Get-CimInstance -ClassName 'Win32_Battery')) {
@@ -37,7 +37,7 @@ function Get-BatteryInfo {
 
 }
 
-function Get-BaseBoardInfo {
+Function Get-BaseBoardInfo {
 
     $BaseBoard = Get-CimInstance -ClassName 'Win32_BaseBoard'
 
@@ -45,7 +45,7 @@ function Get-BaseBoardInfo {
 
 }
 
-function Get-BiosInfo {
+Function Get-BiosInfo {
 
     $Bios = Get-CimInstance -ClassName 'Win32_BIOS'
 
@@ -55,7 +55,7 @@ function Get-BiosInfo {
 
 }
 
-function Get-BitLockerInfo {
+Function Get-BitLockerInfo {
 
     $EncryptionMethods = @{
         '0' = 'NO_ENCRYPTION';
@@ -95,13 +95,13 @@ function Get-BitLockerInfo {
 
 }
 
-function Get-ChassisInfo {
+Function Get-ChassisInfo {
 
     $VirtualHosts = @{
-        'Virtual Machine'         = 'Hyper-V';
-        'VMware Virtual Platform' = 'VMware';
-        'VMware7,1'               = 'VMware';
-        'VirtualBox'              = 'VirtualBox';
+        'Virtual Machine'         = 'Hyper-V'
+        'VMware Virtual Platform' = 'VMware'
+        'VMware7,1'               = 'VMware'
+        'VirtualBox'              = 'VirtualBox'
         'Xen'                     = 'Xen'
         'AHV'                     = 'Nutanix'
     }
@@ -110,7 +110,13 @@ function Get-ChassisInfo {
 
     $TSvars.Add('Memory', ($ComputerSystem.TotalPhysicalMemory / 1024 / 1024).ToString())
     $TSvars.Add('Make', $ComputerSystem.Manufacturer)
-    $TSvars.Add('Model', $ComputerSystem.Model)
+    if ($ComputerSystem.Manufacturer -eq 'LENOVO') {
+        $LenovoModel = (Get-CimInstance -ClassName Win32_ComputerSystemProduct).Version
+        $TSvars.Add('Model', $LenovoModel)
+    }
+    else {
+        $TSvars.Add('Model', $ComputerSystem.Model)
+    }
     $TSvars.Add('SystemSKU', $ComputerSystem.SystemSKUNumber)
 
     if ($VirtualHosts.ContainsKey($ComputerSystem.Model)) {
@@ -138,40 +144,40 @@ function Get-ChassisInfo {
         $ChassisInfo.ChassisTypes | ForEach-Object {
 
             if ($TSvars.ContainsKey('IsDesktop')) {
-                $TSvars['IsDesktop'] = [string]$DesktopChassisTypes.Contains($_.ToString())
+                $TSvars['IsDesktop'] = [string]$DesktopChassisTypes.Contains($PSItem.ToString())
             }
             else {
-                $TSvars.Add('IsDesktop', [string]$DesktopChassisTypes.Contains($_.ToString()))
+                $TSvars.Add('IsDesktop', [string]$DesktopChassisTypes.Contains($PSItem.ToString()))
                 $TSvars.Add('IsLaptop', "$false")
                 $TSvars.Add('IsServer', "$false")
                 $TSvars.Add('IsTablet', "$false")
             }
 
             if ($TSvars.ContainsKey('IsLaptop')) {
-                $TSvars['IsLaptop'] = [string]$LaptopChassisTypes.Contains($_.ToString())
+                $TSvars['IsLaptop'] = [string]$LaptopChassisTypes.Contains($PSItem.ToString())
             }
             else {
-                $TSvars.Add('IsLaptop', [string]$LaptopChassisTypes.Contains($_.ToString()))
+                $TSvars.Add('IsLaptop', [string]$LaptopChassisTypes.Contains($PSItem.ToString()))
                 $TSvars.Add('IsDesktop', "$false")
                 $TSvars.Add('IsServer', "$false")
                 $TSvars.Add('IsTablet', "$false")
             }
 
             if ($TSvars.ContainsKey('IsServer')) {
-                $TSvars['IsServer'] = [string]$ServerChassisTypes.Contains($_.ToString())
+                $TSvars['IsServer'] = [string]$ServerChassisTypes.Contains($PSItem.ToString())
             }
             else {
-                $TSvars.Add('IsServer', [string]$ServerChassisTypes.Contains($_.ToString()))
+                $TSvars.Add('IsServer', [string]$ServerChassisTypes.Contains($PSItem.ToString()))
                 $TSvars.Add('IsDesktop', "$false")
                 $TSvars.Add('IsLaptop', "$false")
                 $TSvars.Add('IsTablet', "$false")
             }
 
             if ($TSvars.ContainsKey('IsTablet')) {
-                $TSvars['IsTablet'] = [string]$TabletChassisTypes.Contains($_.ToString())
+                $TSvars['IsTablet'] = [string]$TabletChassisTypes.Contains($PSItem.ToString())
             }
             else {
-                $TSvars.Add('IsTablet', [string]$TabletChassisTypes.Contains($_.ToString()))
+                $TSvars.Add('IsTablet', [string]$TabletChassisTypes.Contains($PSItem.ToString()))
                 $TSvars.Add('IsDesktop', "$false")
                 $TSvars.Add('IsLaptop', "$false")
                 $TSvars.Add('IsServer', "$false")
@@ -181,7 +187,7 @@ function Get-ChassisInfo {
 
 }
 
-function Get-ComputerSystemProductInfo {
+Function Get-ComputerSystemProductInfo {
 
     $ComputerSystemProduct = Get-CimInstance -ClassName 'Win32_ComputerSystemProduct'
 
@@ -190,14 +196,14 @@ function Get-ComputerSystemProductInfo {
 
 }
 
-function Get-HardwareInfo {
+Function Get-HardwareInfo {
 
     $Processor = Get-CimInstance -ClassName 'Win32_Processor'
 
     if ($Processor.Manufacturer -eq 'GenuineIntel') {
 
         $ProcessorName = $Processor.Name
-        $ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 4)
+        [int]$ProcessorFamily = $ProcessorName.Substring($ProcessorName.LastIndexOf('-') + 1, 5)
 
         if ($ProcessorFamily -ge '8000') {
             $IsCoffeeLakeOrLater = $true
@@ -217,34 +223,34 @@ function Get-HardwareInfo {
 
 }
 
-function Get-NetworkInfo {
+Function Get-NetworkInfo {
 
     (Get-CimInstance -ClassName 'Win32_NetworkAdapterConfiguration' -Filter 'IPEnabled = 1') | ForEach-Object {
 
         # Get IP address information
-        $_.IPAddress | ForEach-Object {
-            if ($_ -ne $null) {
-                if ($_.IndexOf('.') -gt 0 -and !$_.StartsWith('169.254') -and $_ -ne '0.0.0.0') {
+        $PSItem.IPAddress | ForEach-Object {
+            if ($PSItem -ne $null) {
+                if ($PSItem.IndexOf('.') -gt 0 -and -not $PSItem.StartsWith('169.254') -and $PSItem -ne '0.0.0.0') {
 
                     if ($TSvars.ContainsKey('IPAddress')) {
-                        $TSvars['IPAddress'] = $TSvars['IPAddress'] + ',' + $_
+                        $TSvars['IPAddress'] = $TSvars['IPAddress'] + ',' + $PSItem
                     }
                     else {
-                        $TSvars.Add('IPAddress', $_)
+                        $TSvars.Add('IPAddress', $PSItem)
                     }
                 }
             }
         }
 
         # Get Default Gateway information
-        $_.DefaultIPGateway -split ',' | Select-Object -First '1' | ForEach-Object {
-            if ($_ -ne $null -and $_.IndexOf('.') -gt 0) {
+        $PSItem.DefaultIPGateway -split ',' | Select-Object -First '1' | ForEach-Object {
+            if ($PSItem -ne $null -and $PSItem.IndexOf('.') -gt 0) {
 
                 if ($TSvars.ContainsKey('DefaultGateway')) {
-                    $TSvars['DefaultGateway'] = $TSvars['DefaultGateway'] + ',' + $_
+                    $TSvars['DefaultGateway'] = $TSvars['DefaultGateway'] + ',' + $PSItem
                 }
                 else {
-                    $TSvars.Add("DefaultGateway", $_)
+                    $TSvars.Add("DefaultGateway", $PSItem)
                 }
             }
         }
@@ -252,7 +258,7 @@ function Get-NetworkInfo {
     }
 
     # Check to see if the device is connected via Ethernet and return $true if it is
-    $EthernetConnection = Get-CimInstance -ClassName 'Win32_NetworkAdapter' | Where-Object { $_.Name -like "*Ethernet Connection*" -or $_.Name -like "*Realtek PCIe*" -and $_.NetConnectionStatus -eq '2' }
+    $EthernetConnection = Get-CimInstance -ClassName 'Win32_NetworkAdapter' | Where-Object { $PSItem.Name -like "*Ethernet Connection*" -or $PSItem.Name -like "*Realtek PCIe*" -and $PSItem.NetConnectionStatus -eq '2' }
 
     if ($null -eq $EthernetConnection) {
         $IsOnEthernet = $false
@@ -270,11 +276,12 @@ function Get-NetworkInfo {
 
 }
 
-function Get-OsInfo {
+Function Get-OsInfo {
 
     $Os = Get-CimInstance -ClassName 'Win32_OperatingSystem'
     $OsBuildNumber = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'CurrentBuild').CurrentBuild + '.' + (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'UBR').UBR
-    $ComputerInfo = Get-ComputerInfo
+    $OsWindowsInstallationType = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'InstallationType' -ErrorAction SilentlyContinue).InstallationType
+    $OsProductName = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'ProductName' -ErrorAction SilentlyContinue).ProductName
 
     if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
         $Architecture = 'X64'
@@ -287,15 +294,15 @@ function Get-OsInfo {
     $TSvars.Add('OSCurrentVersion', $Os.Version)
     $TSvars.Add('OSCurrentBuild', $Os.BuildNumber)
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
-    $TSvars.Add('OsLocale', $ComputerInfo.OsLocale)
-    $TSvars.Add('OsWindowsInstallationType', $ComputerInfo.WindowsInstallationType)
-    $TSvars.Add('OsWindowsProductName', $ComputerInfo.WindowsProductName)
+    $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
+    $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
+    $TSvars.Add('OsWindowsProductName', $OsProductName)
 
     if ($ComputerInfo.WindowsInstallationType -eq 'WindowsPE') {
         $TSvars.Add('OsTimeZone', 'N/A')
     }
     else {
-        $TSvars.Add('OsTimeZone', $ComputerInfo.TimeZone)
+        $TSvars.Add('OsTimeZone', (Get-TimeZone).DisplayName)
     }
 
 }
@@ -317,7 +324,7 @@ if ($Debug) {
     Start-Transcript -Path "$env:windir\Temp\Pwsh-Gather.log" -Append -NoClobber
 
     $TSvars.Keys | Sort-Object | ForEach-Object {
-        Write-Host "$($_) = $($TSvars[$_])"
+        Write-Host "$($PSItem) = $($TSvars[$PSItem])"
     }
 
     Stop-Transcript
@@ -338,8 +345,8 @@ else {
     }
 
     $TSvars.Keys | Sort-Object | ForEach-Object {
-        $tsenv.Value($_) = $TSvars[$_]
-        Write-Output "$($_) = $($TSvars[$_])"
+        $tsenv.Value($PSItem) = $TSvars[$PSItem]
+        Write-Output "$($PSItem) = $($TSvars[$PSItem])"
     }
 
     Stop-Transcript
