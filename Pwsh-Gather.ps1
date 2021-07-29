@@ -137,11 +137,11 @@ Function Get-ChassisInfo {
 
     $ChassisInfo = Get-CimInstance -ClassName 'Win32_SystemEnclosure'
 
-    if (($null -or $ChassisInfo.SMBIOSAssetTag -eq "") -eq $ChassisInfo.SMBIOSAssetTag) {
-        $TSvars.Add('AssetTag', $ChassisInfo.SMBIOSAssetTag)
+    if ($null -or "" -or " " -eq $ChassisInfo.SMBIOSAssetTag) {
+        $TSvars.Add('AssetTag', 'N/A')
     }
     else {
-        $TSvars.Add('AssetTag', 'N/A')
+        $TSvars.Add('AssetTag', $ChassisInfo.SMBIOSAssetTag)
     }
 
     if ($IsVM -eq $false) {
