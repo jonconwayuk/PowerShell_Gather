@@ -5,7 +5,7 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   28/07/2021
+    Modified:   29/07/2021
     Version:    1.8
 #>
 
@@ -137,7 +137,12 @@ Function Get-ChassisInfo {
 
     $ChassisInfo = Get-CimInstance -ClassName 'Win32_SystemEnclosure'
 
-    $TSvars.Add('AssetTag', $ChassisInfo.SMBIOSAssetTag)
+    if (($null -or $ChassisInfo.SMBIOSAssetTag -eq "") -eq $ChassisInfo.SMBIOSAssetTag) {
+        $TSvars.Add('AssetTag', $ChassisInfo.SMBIOSAssetTag)
+    }
+    else {
+        $TSvars.Add('AssetTag', 'N/A')
+    }
 
     if ($IsVM -eq $false) {
 
@@ -203,7 +208,8 @@ Function Get-HardwareInfo {
     if ($Processor.Manufacturer -eq 'GenuineIntel') {
 
         $ProcessorName = $Processor.Name
-        [int]$ProcessorFamily = ("$ProcessorName" -split '([^-][0-9]{3,})')[1]
+        [String]$RegExPattern = '([^-][0-9]{3,})'
+        [int]$ProcessorFamily = ($ProcessorName | Select-String -Pattern $RegExPattern | Select-Object -ExpandProperty 'Matches').Value
 
         if ($ProcessorFamily -ge '8000') {
             $IsCoffeeLakeOrLater = $true
@@ -279,9 +285,10 @@ Function Get-NetworkInfo {
 Function Get-OsInfo {
 
     $Os = Get-CimInstance -ClassName 'Win32_OperatingSystem'
-    $OsBuildNumber = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'CurrentBuild').CurrentBuild + '.' + (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'UBR').UBR
-    $OsWindowsInstallationType = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'InstallationType' -ErrorAction SilentlyContinue).InstallationType
-    $OsProductName = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'ProductName' -ErrorAction SilentlyContinue).ProductName
+    $OsBuildRegistyInfo = Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+    [string]$OsBuildNumber = ($OsBuildRegistyInfo.CurrentBuild) + '.' + ($OsBuildRegistyInfo.UBR)
+    [string]$OsWindowsInstallationType = $OsBuildRegistyInfo.InstallationType
+    [string]$OsProductName = $OsBuildRegistyInfo.ProductName
 
     if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
         $Architecture = 'X64'
