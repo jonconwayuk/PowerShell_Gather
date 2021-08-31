@@ -285,11 +285,11 @@ Function Get-NetworkInfo {
 Function Get-OsInfo {
 
     $Os = Get-CimInstance -ClassName 'Win32_OperatingSystem'
-    $OsBuildRegistyInfo = Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
-    [string]$OsBuildNumber = ($OsBuildRegistyInfo.CurrentBuild) + '.' + ($OsBuildRegistyInfo.UBR)
+    $OsBuildRegistryInfo = Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+    [string]$OsBuildNumber = ($OsBuildRegistryInfo.CurrentBuild) + '.' + ($OsBuildRegistryInfo.UBR)
     $OsInWinPE = Test-Path -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\MiniNT'
-    [string]$OsWindowsInstallationType = $OsBuildRegistyInfo.InstallationType
-    [string]$OsProductName = $OsBuildRegistyInfo.ProductName
+    [string]$OsWindowsInstallationType = $OsBuildRegistryInfo.InstallationType
+    [string]$OsProductName = $OsBuildRegistryInfo.ProductName
 
     if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
         $Architecture = 'X64'
