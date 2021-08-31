@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   29/07/2021
-    Version:    1.8
+    Modified:   31/08/2021
+    Version:    1.9
 #>
 
 Param (
@@ -287,6 +287,7 @@ Function Get-OsInfo {
     $Os = Get-CimInstance -ClassName 'Win32_OperatingSystem'
     $OsBuildRegistyInfo = Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
     [string]$OsBuildNumber = ($OsBuildRegistyInfo.CurrentBuild) + '.' + ($OsBuildRegistyInfo.UBR)
+    $OsInWinPE = Test-Path -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\MiniNT'
     [string]$OsWindowsInstallationType = $OsBuildRegistyInfo.InstallationType
     [string]$OsProductName = $OsBuildRegistyInfo.ProductName
 
@@ -301,7 +302,10 @@ Function Get-OsInfo {
     $TSvars.Add('OSCurrentVersion', $Os.Version)
     $TSvars.Add('OSCurrentBuild', $Os.BuildNumber)
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
-    $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
+    $TSvars.Add('OsInWinPE', $OsInWinPE)
+    if ($OsInWinPE -eq $false) {
+        $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
+    }
     $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
     $TSvars.Add('OsWindowsProductName', $OsProductName)
 
