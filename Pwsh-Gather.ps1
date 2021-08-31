@@ -309,7 +309,7 @@ Function Get-OsInfo {
     $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
     $TSvars.Add('OsWindowsProductName', $OsProductName)
 
-    if ($ComputerInfo.WindowsInstallationType -eq 'WindowsPE') {
+    if ($ComputerInfo.WindowsInstallationType -eq 'WindowsPE' -or $OsInWinPE -eq $true) {
         $TSvars.Add('OsTimeZone', 'N/A')
     }
     else {
