@@ -303,9 +303,14 @@ Function Get-OsInfo {
     $TSvars.Add('OSCurrentBuild', $Os.BuildNumber)
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
     $TSvars.Add('OsInWinPE', $OsInWinPE)
+
     if ($OsInWinPE -eq $false) {
         $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
     }
+    else {
+        $TSvars.Add('OsLocale', 'N/A')
+    }
+
     $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
     $TSvars.Add('OsWindowsProductName', $OsProductName)
 
