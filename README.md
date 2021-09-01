@@ -1,5 +1,5 @@
 # PowerShell_Gather
-PowerShell script to replace MDT Gather in Windows OSD.
+PowerShell script to replace MDT Gather in Windows OSD. 
 
 It collects information from a device and stores these as variables which can then be utilised as SCCM Task Sequence variables to set logic for various actions.
 
