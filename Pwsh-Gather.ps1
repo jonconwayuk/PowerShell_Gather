@@ -5,8 +5,8 @@
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   31/08/2021
-    Version:    1.9
+    Modified:   01/09/2021
+    Version:    1.10
 #>
 
 Param (
@@ -304,15 +304,12 @@ Function Get-OsInfo {
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
     $TSvars.Add('OsInWinPE', $OsInWinPE)
 
-    if ($OsInWinPE -eq $false) {
-        $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
-    }
-    else {
+    if ($OsInWinPE -eq $true) {
         $TSvars.Add('OsLocale', 'N/A')
     }
-
-    $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
-    $TSvars.Add('OsWindowsProductName', $OsProductName)
+    else {
+        $TSvars.Add('OsLocale', (Get-WinSystemLocale).Name)
+    }
 
     if ($ComputerInfo.WindowsInstallationType -eq 'WindowsPE' -or $OsInWinPE -eq $true) {
         $TSvars.Add('OsTimeZone', 'N/A')
@@ -320,6 +317,9 @@ Function Get-OsInfo {
     else {
         $TSvars.Add('OsTimeZone', (Get-TimeZone).DisplayName)
     }
+
+    $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
+    $TSvars.Add('OsWindowsProductName', $OsProductName)
 
 }
 
