@@ -101,9 +101,11 @@ Function Get-ChassisInfo {
         'Virtual Machine'         = 'Hyper-V'
         'VMware Virtual Platform' = 'VMware'
         'VMware7,1'               = 'VMware'
+        'VMware20,1'              = 'VMware'
         'VirtualBox'              = 'VirtualBox'
         'Xen'                     = 'Xen'
         'AHV'                     = 'Nutanix'
+        'QWEMU'                   = 'ProxMox'
     }
 
     $ComputerSystem = Get-CimInstance -ClassName 'Win32_ComputerSystem'
