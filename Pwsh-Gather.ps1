@@ -297,10 +297,10 @@ Function Get-OsInfo {
     $OsArchitecture = (Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture
 
     $TSvars.Add('OsArchitecture', $OsArchitecture)
-    $TSvars.Add('OsCurrentVersion', $Os.Version)
-    $TSvars.Add('OsCurrentBuild', $Os.BuildNumber)
-    $TSvars.Add('OsFeatureUpdateVersion', $OsFeatureUpdateVersion)
     $TSvars.Add('OsBuildNumber', $OsBuildNumber)
+    $TSvars.Add('OsCurrentBuild', $Os.BuildNumber)
+    $TSvars.Add('OsCurrentVersion', $Os.Version)
+    $TSvars.Add('OsFeatureUpdateVersion', $OsFeatureUpdateVersion)
     $TSvars.Add('OsInWinPE', $OsInWinPE)
 
     if ($OsInWinPE -eq $true) {
@@ -339,7 +339,7 @@ if ($Debug) {
     Start-Transcript -Path "$env:windir\Temp\Pwsh-Gather.log" -Append -NoClobber
 
     $TSvars.Keys | Sort-Object | ForEach-Object {
-        Write-Host "$($PSItem) = $($TSvars[$PSItem])" -BackgroundColor 'Blue' -ForegroundColor 'Black'
+        Write-Host "$($PSItem) = `"$($TSvars[$PSItem])`"" -BackgroundColor 'Blue' -ForegroundColor 'Black'
     }
 
     Stop-Transcript
