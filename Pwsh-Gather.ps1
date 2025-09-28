@@ -291,7 +291,7 @@ Function Get-OsInfo {
     [string]$OsBuildNumber = ($OsBuildRegistryInfo.CurrentBuild) + '.' + ($OsBuildRegistryInfo.UBR)
     $OsInWinPE = Test-Path -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\MiniNT'
     [string]$OsWindowsInstallationType = $OsBuildRegistryInfo.InstallationType
-    [string]$OsProductName = $OsBuildRegistryInfo.ProductName
+    [string]$OsCaption = $Os.Caption
 
     $OsArchitecture = (Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture
 
@@ -316,7 +316,7 @@ Function Get-OsInfo {
     }
 
     $TSvars.Add('OsWindowsInstallationType', $OsWindowsInstallationType)
-    $TSvars.Add('OsWindowsProductName', $OsProductName)
+    $TSvars.Add('OsCaption', $OsCaption)
 
 }
 
