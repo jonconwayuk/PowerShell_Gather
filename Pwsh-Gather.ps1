@@ -1,12 +1,12 @@
 ﻿<#
 .DESCRIPTION
-    Script to replace MDT Gather in MECM Task Sequences
+    Script to replace MDT Gather in an MCM Task Sequences
 .EXAMPLE
     PowerShell.exe -ExecutionPolicy ByPass -File <ScriptName>.ps1 [-Debug]
 .NOTES
     Author(s):  Jonathan Conway
-    Modified:   01/09/2021
-    Version:    1.10
+    Modified:   28/09/2025
+    Version:    1.11
 #>
 
 Param (
@@ -293,11 +293,12 @@ Function Get-OsInfo {
     [string]$OsWindowsInstallationType = $OsBuildRegistryInfo.InstallationType
     [string]$OsProductName = $OsBuildRegistryInfo.ProductName
 
-    if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {
-        $Architecture = 'X64'
-    }
-    else {
-        $Architecture = 'X86'
+    $OsArchitecture = (Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture
+
+    switch ($OsArchitecture) {
+        "64-bit" { $Architecture = "64-bit" }
+        "32-bit" { $Architecture = "32-bit" }
+        "ARM64" { $Architecture = "ARM64" }
     }
 
     $TSvars.Add('Architecture', $Architecture)
