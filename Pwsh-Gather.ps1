@@ -293,15 +293,9 @@ Function Get-OsInfo {
     [string]$OsWindowsInstallationType = $OsBuildRegistryInfo.InstallationType
     [string]$OsProductName = $OsBuildRegistryInfo.ProductName
 
-    $Architecture = (Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture
+    $OsArchitecture = (Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture
 
-    switch ($Architecture) {
-        "64-bit" { $Architecture = "64-bit" }
-        "32-bit" { $Architecture = "32-bit" }
-        "ARM64" { $Architecture = "ARM64" }
-    }
-
-    $TSvars.Add('OsArchitecture', $Architecture)
+    $TSvars.Add('OsArchitecture', $OsArchitecture)
     $TSvars.Add('OSCurrentVersion', $Os.Version)
     $TSvars.Add('OSCurrentBuild', $Os.BuildNumber)
     $TSvars.Add('OSBuildNumber', $OsBuildNumber)
