@@ -323,8 +323,8 @@ Function Get-OsInfo {
 }
 
 # Run all functions
-Get-BatteryInfo
 Get-BaseBoardInfo
+Get-BatteryInfo
 Get-BiosInfo
 Get-BitLockerInfo
 Get-ChassisInfo
