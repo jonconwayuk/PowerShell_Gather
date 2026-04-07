@@ -1,9 +1,14 @@
 # PowerShell_Gather
+
+## Description
+
 PowerShell script to replace MDT Gather in Windows OSD.
 
 It collects information from a device and stores these as variables which can then be utilised as MCM Task Sequence variables to set logic for various actions.
 
 The advantage of this is that in most scenarios, you not longer need to use MDT-integrated Task Sequences and can therefore avoid using and maintaining the various MDT components required otherwise.
+
+## Instructions
 
 Script can be run in a Task in an MCM Task Sequence - easiest way is to add the script content as a "Run PowerShell Script' step with the Execution Policy set to 'Bypass'.
 
@@ -17,41 +22,42 @@ Feel free to reach out if there are any feature requests for the script and I wi
 
 Variables currently gathered are shown in the example output below:
 
-- Architecture = X64
-- AssetTag = CZC6XXXXXX
-- BIOSReleaseDate = 04/19/2021 01:00:00
-- BIOSVersion = N01 Ver. 02.53
-- BitlockerEncryptionMethod = N/A
-- DefaultGateway = 192.168.1.1
-- IPAddress = 192.168.1.20
-- IsBDE = False
-- IsCoffeeLakeOrLater = False
-- IsDesktop = True
-- IsLaptop = False
-- IsOnBattery = False
-- IsOnEthernet = True
-- IsServer = False
-- IsTablet = False
-- IsVM = False
-- MacAddress = 48:0F:CF:45:06:F1,48:0F:CF:45:06:F1
-- Make = HP
-- Memory = 65415.58203125
-- Model = HP EliteDesk 800 G2 SFF
-- OSBuildNumber = 17763.2114
-- OSCurrentBuild = 17763
-- OSCurrentVersion = 10.0.17763
-- OsInWinPE = False
-- OsLocale = en-GB
-- OsTimeZone = (UTC+00:00) Dublin, Edinburgh, Lisbon, London
-- OsWindowsInstallationType = Server
-- OsWindowsProductName = Windows Server 2019 Standard
-- ProcessorFamily = 6700
-- ProcessorManufacturer = GenuineIntel
-- ProcessorName = Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
-- ProcessorSpeed = 3408
-- Product = 8054
-- SerialNumber = CZC6XXXXXX
-- SystemSKU = L1G76AV
-- UUID = D41CCC6A-E086-11E5-9C43-BC0000EE0000
-- Vendor = HP
-- VMPlatform = N/A
+AssetTag = "No Asset Information"
+BIOSReleaseDate = "10/17/2025 01:00:00"
+BIOSVersion = "N2JETA9W (1.87 )"
+BitlockerEncryptionMethod = "AES_256"
+DefaultGateway = "XXX.XXX.XXX.XXX"
+IPAddress = "XXX.XXX.XXX.XXX"
+IsBDE = "True"
+IsCoffeeLakeOrLater = "True"
+IsDesktop = "False"
+IsLaptop = "True"
+IsOnBattery = "False"
+IsOnEthernet = "False"
+IsServer = "False"
+IsTablet = "False"
+IsVM = "False"
+MacAddress = "XX:XX:XX:XX:XX:XX"
+Make = "LENOVO"
+Memory = "8005.1640625"
+Model = "ThinkPad X390"
+OsArchitecture = "64-bit"
+OsBuildNumber = "26200.8117"
+OsCaption = "Microsoft Windows 11 Pro"
+OsCurrentBuild = "26200"
+OsCurrentVersion = "10.0.26200"
+OsFeatureUpdateVersion = "25H2"
+OsInWinPE = "False"
+OsLocale = "en-GB"
+OsTimeZone = "(UTC+00:00) Dublin, Edinburgh, Lisbon, London"
+OsWindowsInstallationType = "Client"
+ProcessorFamily = "8265"
+ProcessorManufacturer = "GenuineIntel"
+ProcessorName = "Intel(R) Core(TM) i5-8265U CPU @ 1.60GHz"
+ProcessorSpeed = "1800"
+Product = "20Q1000LUK"
+SerialNumber = "XXXXXXXX"
+SystemSKU = "LENOVO_MT_20Q1_BU_Think_FM_ThinkPad X390"
+UUID = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+Vendor = "LENOVO"
+VMPlatform = "N/A"
