@@ -13,6 +13,8 @@ For testing, the script can be run locally by using the '-Debug' parameter as pe
 
 The vast majority of the groundwork for this script was done by Johan Schrewelius (https://gallery.technet.microsoft.com/PowerShell-script-that-a8a7bdd8) who has kindly allowed me to share and update his work.
 
+Feel free to reach out if there are any feature requests for the script and I will try to accomodate.
+
 Variables currently gathered are shown in the example output below:
 
 - Architecture = X64
