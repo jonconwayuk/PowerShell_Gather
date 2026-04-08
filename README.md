@@ -2,16 +2,21 @@
 
 ## Description
 
-PowerShell script to replace MDT Gather in Windows OSD.
+PowerShell script designed to replace MDT Gather functionality when deploying a Windows OS using Microsoft Configuration Manager.
 
 It collects information from a device and stores these as variables which can then be utilised as MCM Task Sequence variables to set logic for various actions.
 
-The advantage of this is that in most scenarios, you not longer need to use MDT-integrated Task Sequences and can therefore avoid using and maintaining the various MDT components required otherwise.
+The advantage of this is that in the majority of scenarios, you not longer need to use MDT-integrated Task Sequences and can therefore avoid using and maintaining the various MDT components required otherwise.
+
+> [!Caution]
+> MDT has now been deprecated by Microsoft and is no longer supported.
+> [Microsoft Deployment Toolkit (MDT) - immediate retirement notice](https://learn.microsoft.com/en-us/troubleshoot/mem/configmgr/mdt/mdt-retirement)
 
 ## Instructions
 
 Script can be run in a Task in an MCM Task Sequence - easiest way is to add the script content as a "Run PowerShell Script' step with the Execution Policy set to 'Bypass'.
 
+The vast majority of the groundwork for this script was done by Johan Schrewelius ([Johan's GitHub Repo](https://github.com/Josch62/Gather-Script-For-ConfigMgr-TS/blob/main/Gather.ps1)) who has kindly allowed me to share and update his work.
 
 > [!Tip]
 > For testing, the script can be run locally by using the '-Debug' parameter as per the example below from an Administrator PowerShell prompt:
@@ -19,12 +24,11 @@ Script can be run in a Task in an MCM Task Sequence - easiest way is to add the 
 > PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug
 >```
 
-
-The vast majority of the groundwork for this script was done by Johan Schrewelius ([Johan's GitHub Repo](https://github.com/Josch62/Gather-Script-For-ConfigMgr-TS/blob/main/Gather.ps1)) who has kindly allowed me to share and update his work.
-
 Feel free to reach out if there are any feature requests for the script and I will try to accomodate.
 
 Variables currently gathered are shown in the example output below:
+
+## Sample Output Values
 
 - AssetTag = "No Asset Information"
 - BIOSReleaseDate = "10/17/2025 01:00:00"
