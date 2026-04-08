@@ -9,7 +9,8 @@ It collects information from a device and stores these as variables which can th
 The advantage of this is that in the majority of scenarios, you not longer need to use MDT-integrated Task Sequences and can therefore avoid using and maintaining the various MDT components required otherwise.
 
 > [!Caution]
-> MDT has now been deprecated by Microsoft and is no longer supported.
+> MDT has now been retired by Microsoft and is **_no longer supported_**.
+> 
 > [Microsoft Deployment Toolkit (MDT) - immediate retirement notice](https://learn.microsoft.com/en-us/troubleshoot/mem/configmgr/mdt/mdt-retirement)
 
 ## Instructions
@@ -21,7 +22,7 @@ The vast majority of the groundwork for this script was done by Johan Schreweliu
 > [!Tip]
 > For testing, the script can be run locally by using the '-Debug' parameter as per the example below from an Administrator PowerShell prompt:
 >``` powershell
-> PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug
+> PS .\Pwsh-Gather.ps1 -Debug
 >```
 
 Feel free to reach out if there are any feature requests for the script and I will try to accomodate.
