@@ -12,9 +12,13 @@ The advantage of this is that in most scenarios, you not longer need to use MDT-
 
 Script can be run in a Task in an MCM Task Sequence - easiest way is to add the script content as a "Run PowerShell Script' step with the Execution Policy set to 'Bypass'.
 
-For testing, the script can be run locally by using the '-Debug' parameter as per the example below from an Administrator PowerShell prompt:
 
-**PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug**
+> [!Tip]
+> For testing, the script can be run locally by using the '-Debug' parameter as per the example below from an Administrator PowerShell prompt:
+>``` powershell
+> PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug
+>```
+
 
 The vast majority of the groundwork for this script was done by Johan Schrewelius ([Johan's GitHub Repo](https://github.com/Josch62/Gather-Script-For-ConfigMgr-TS/blob/main/Gather.ps1)) who has kindly allowed me to share and update his work.
 
