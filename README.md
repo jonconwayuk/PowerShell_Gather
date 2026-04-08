@@ -10,7 +10,7 @@ The advantage of this is that in the majority of scenarios, you not longer need 
 
 > [!Caution]
 > MDT has now been retired by Microsoft and is **_no longer supported_**.
-> 
+>
 > [Microsoft Deployment Toolkit (MDT) - immediate retirement notice](https://learn.microsoft.com/en-us/troubleshoot/mem/configmgr/mdt/mdt-retirement)
 
 ## Instructions
