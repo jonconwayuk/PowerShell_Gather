@@ -16,7 +16,7 @@ For testing, the script can be run locally by using the '-Debug' parameter as pe
 
 **PS C:\Users\Administrator\Documents\PowerShell_Gather> .\Pwsh-Gather.ps1 -Debug**
 
-The vast majority of the groundwork for this script was done by Johan Schrewelius [GitHub Repo](https://github.com/Josch62/Gather-Script-For-ConfigMgr-TS/blob/main/Gather.ps1) who has kindly allowed me to share and update his work.
+The vast majority of the groundwork for this script was done by Johan Schrewelius ([Johan's GitHub Repo](https://github.com/Josch62/Gather-Script-For-ConfigMgr-TS/blob/main/Gather.ps1)) who has kindly allowed me to share and update his work.
 
 Feel free to reach out if there are any feature requests for the script and I will try to accomodate.
 
