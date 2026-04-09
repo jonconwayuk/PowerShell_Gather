@@ -27,8 +27,6 @@ The vast majority of the groundwork for this script was done by Johan Schreweliu
 
 Feel free to reach out if there are any feature requests for the script and I will try to accomodate. 
 
-If you like or find the script useful, please give it a star ⭐.
-
 Variables currently gathered are shown in the example output below:
 
 ## Sample Output Values
@@ -72,3 +70,6 @@ Variables currently gathered are shown in the example output below:
 - UUID = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
 - Vendor = "LENOVO"
 - VMPlatform = "N/A"
+
+## Give a Star ⭐
+If you like or find the script useful then please repository a star ⭐.
