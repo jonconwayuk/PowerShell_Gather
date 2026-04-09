@@ -25,7 +25,9 @@ The vast majority of the groundwork for this script was done by Johan Schreweliu
 > PS .\Pwsh-Gather.ps1 -Debug
 >```
 
-Feel free to reach out if there are any feature requests for the script and I will try to accomodate.
+Feel free to reach out if there are any feature requests for the script and I will try to accomodate. 
+
+If you like or find the script useful, please give it a star ⭐.
 
 Variables currently gathered are shown in the example output below:
 
