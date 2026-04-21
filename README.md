@@ -1,3 +1,5 @@
+[![Latest Release](https://img.shields.io/github/v/release/jonconwayuk/PowerShell_Gather)](https://github.com/jonconwayuk/PowerShell_Gather/releases/latest)
+
 # PowerShell_Gather
 
 ## Description
