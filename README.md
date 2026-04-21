@@ -1,4 +1,8 @@
 [![Latest Release](https://img.shields.io/github/v/release/jonconwayuk/PowerShell_Gather)](https://github.com/jonconwayuk/PowerShell_Gather/releases/latest)
+[![Last commit](https://img.shields.io/github/last-commit/jonconwayuk/PowerShell_Gather)](https://github.com/jonconwayuk/PowerShell_Gather/commits/main)
+[![Downloads](https://img.shields.io/github/downloads/jonconwayuk/PowerShell_Gather/total)](https://github.com/jonconwayuk/PowerShell_Gather/releases)
+[![GitHub stars](https://img.shields.io/github/stars/jonconwayuk/PowerShell_Gather)](https://github.com/jonconwayuk/PowerShell_Gather/stargazers)
+[![Licence](https://img.shields.io/github/license/jonconwayuk/PowerShell_Gather)](https://github.com/jonconwayuk/PowerShell_Gather/blob/main/LICENSE)
 
 # PowerShell_Gather
 
