@@ -77,5 +77,5 @@ Variables currently gathered are shown in the example output below:
 - Vendor = "LENOVO"
 - VMPlatform = "N/A"
 
-## Give a Star ⭐
-If you like or find the script useful then please repository a star ⭐.
+## Give a Star
+If you like or find the script useful then please give this repository a star ⭐.
